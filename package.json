@@ -1,6 +1,7 @@
 {
-  "name": "sites-project",
+  "name": "orbit-07",
   "version": "0.1.0",
+  "description": "A browser-based futuristic anti-gravity racing game built with Three.js.",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -8,10 +9,16 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "test": "node --test tests/race.test.mjs",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tacdelgineer/orbit-07.git"
+  },
+  "homepage": "https://tacdelgineer.github.io/orbit-07/",
   "dependencies": {
     "@base-ui/react": "1.7.0",
     "@shadcn/react": "0.3.0",

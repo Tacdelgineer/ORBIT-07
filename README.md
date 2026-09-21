@@ -1,66 +1,80 @@
 # ORBIT / 07
 
-A browser-based Three.js anti-gravity racer. The visual system uses graphite armor, cool cyan navigation, violet propulsion, angular typography, and procedural orbital architecture inspired by the supplied references. No reference images or external 3D models are used in the game.
+A fast browser-based anti-gravity racing game built with Three.js.
 
-## Run
+## [▶ PLAY NOW](https://tacdelgineer.github.io/orbit-07/)
 
-Requires Node.js 22.13 or later.
+![ORBIT / 07 racing above Kepler](docs/images/gameplay-race.png)
 
-```sh
-npm install
-npm run dev
-```
+## Features
 
-Open the printed local URL. The standalone game lives in `public/game/index.html`; it can also be served by any static HTTP server from `public/game`. Opening the file directly with `file://` is unsupported because the game uses JavaScript modules. Three.js and the small subset of post-processing modules are served locally. Optional Google Fonts fall back to system fonts when offline.
+- Anti-gravity arcade racing against three AI opponents
+- Boost pads, hazards, and sequential checkpoints
+- Three-lap races with position, timer, minimap, and results HUD
+- Procedural ships and orbital scenery with neon trails and bloom
+- Pause, restart, keyboard controls, and touch controls
+
+![ORBIT / 07 race start with AI rivals](docs/images/gameplay-start.png)
 
 ## Controls
 
-| Key                | Action                   |
-| ------------------ | ------------------------ |
-| W / Up             | Accelerate               |
-| S / Down           | Brake                    |
-| A, D / Left, Right | Steer                    |
-| Space              | Rechargeable boost       |
-| Enter              | Start / race again       |
-| Escape             | Pause / resume           |
-| R                  | Restart race             |
-| M                  | Toggle synthesized audio |
+| Key | Action |
+| --- | --- |
+| W / Up | Accelerate |
+| S / Down | Brake |
+| A / D or Left / Right | Steer |
+| Space | Boost |
+| Esc | Pause / resume |
+| R | Restart |
+| M | Toggle audio |
 
-Touch controls appear on touch devices. Audio starts muted; enable it from the speaker button. Switching tabs pauses the race and clears held inputs.
+## Run locally
 
-## Racing
-
-Complete three laps around Kepler Run against three AI pilots. The magnetic guidance system follows the track heading; the player controls speed and lateral movement with inertia and visual banking. Cyan pads grant a short overdrive burst and refill boost. Avoid red mines and guardrails to retain speed. Checkpoints are crossed in sequence, and the results screen reports finish position, total time, and best lap. Rivals are non-colliding competitors; positions use actual circuit progress and finish timestamps.
-
-## Code map
-
-The HTML interface, stylesheet, and ES modules are separate. `app/page.tsx` is a minimal Sites host for the standalone game.
-
-| File under `public/game`                  | Responsibility                                                   |
-| ----------------------------------------- | ---------------------------------------------------------------- |
-| `index.html`, `styles.css`                | Menus, HUD, responsive layout                                    |
-| `js/config.js`                            | Palette, handling constants, track points and object placement   |
-| `js/race.js`                              | Fixed-step, browser-independent simulation and state transitions |
-| `js/track.js`                             | Curve frames, road ribbons, rails, gates, pads and mines         |
-| `js/vehicle.js`                           | Procedural layered hull and engines                              |
-| `js/world.js`                             | Planet/nebula shaders, stars, stations, asteroids                |
-| `js/renderer.js`                          | Camera, lights, bloom and adaptive resolution                    |
-| `js/effects.js`                           | Fixed particle pool for exhaust trails                           |
-| `js/input.js`, `js/audio.js`, `js/hud.js` | Input, optional sound, race presentation                         |
-| `js/main.js`                              | Initialization, state actions, fixed-step loop                   |
-| `js/webmcp.js`                            | Optional feature-detected race session tools                     |
-
-To add a track, supply another track definition with a closed set of control points and normalized pad / hazard positions, then pass it into `Track` (currently initialized from the default `TRACK` definition). Adjust handling in `RACE`, and compose new vehicles through `createVehicle`. The race state is deliberately independent of rendering to support additional modes and tests.
-
-## Validation and performance
+Requires Node.js 22.13 or newer.
 
 ```sh
-node --test tests/race.test.mjs
+git clone https://github.com/Tacdelgineer/orbit-07.git
+cd orbit-07
+npm ci
+npm run dev
+```
+
+Open the URL printed in the terminal. The root route hosts the game, and `/game/index.html` opens the standalone static version.
+
+## Production build
+
+```sh
+npm test
 npm run build
 ```
 
-The simulation uses a 120 Hz fixed step with bounded frame delta; render updates are separate. Rails, lane markers and asteroids use instanced geometry. Trails use one reusable buffer with 520 particles. Pixel ratio is capped and sustained slow frames reduce rendering resolution. Bloom uses emissive primitives and reduced-resolution mip passes. No real-time shadows, model loading, physics engine, or large image textures are required.
+The simulation tests run without a browser. A manual WebGL 2 browser play-through is still recommended for rendering or gameplay changes.
 
-WebGL 2 and browser hardware acceleration are required. The optional WebMCP integration is feature-detected; its browser registration requires a supported host and is not part of the core game. Current checks cover the simulation and production build; a manual browser play-through and device performance profiling are still recommended before broader release.
+## Deploy
 
-Three.js r180 is included under the MIT license in `public/game/vendor/LICENSE`. Run `node scripts/sync-vendor.mjs` after upgrading the pinned Three.js dependency to update the required browser modules.
+Pushes to `main` automatically test, build, and deploy `public/game` with [the GitHub Pages workflow](.github/workflows/deploy-pages.yml). The deployed files use relative URLs so they remain compatible with the `/orbit-07/` repository base path.
+
+## Project structure
+
+```text
+app/                       Vinext host for local development
+public/game/index.html     Standalone game and UI markup
+public/game/js/            Race simulation, rendering, input, HUD, and audio
+public/game/styles.css     Game presentation and responsive layout
+public/game/vendor/        Browser-ready Three.js modules and license
+tests/race.test.mjs        Deterministic simulation tests
+.github/workflows/         GitHub Pages deployment
+AGENTS.md                  Operating guide for coding agents
+```
+
+![ORBIT / 07 hangar menu](docs/images/gameplay-menu.png)
+
+### Run or modify with a coding agent
+
+Copy and paste this prompt:
+
+> You are working with the ORBIT / 07 repository. Read `README.md` and `AGENTS.md` before changing anything. Use Node.js 22.13 or newer, install dependencies with `npm ci`, start the project with `npm run dev`, and verify the game locally. Preserve the existing Three.js architecture, procedural assets, and racing behavior unless I explicitly request gameplay changes. Keep all browser asset URLs compatible with the GitHub Pages `/orbit-07/` base path. After modifications, run `npm test` and `npm run build`. Report the local URL, test/build status, files changed, and remaining issues.
+
+## License
+
+No project license has been selected. Three.js is redistributed under its MIT license in [`public/game/vendor/LICENSE`](public/game/vendor/LICENSE).
