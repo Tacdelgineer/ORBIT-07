@@ -7,6 +7,7 @@ ORBIT / 07 is a browser-based futuristic anti-gravity racing game built with Thr
 ## Project map
 
 - `app/page.tsx` — local Vinext host; embeds the standalone game.
+- `index.html` — repository-root game entry used when Pages is configured to deploy from the branch root.
 - `public/game/index.html` — game document, menus, HUD, overlays, and browser entry point.
 - `public/game/js/main.js` — initialization, UI actions, and the fixed-step game/render loop.
 - `public/game/js/race.js` — browser-independent race simulation, AI rival state, laps, checkpoints, boosts, hazards, and results.
@@ -19,7 +20,8 @@ ORBIT / 07 is a browser-based futuristic anti-gravity racing game built with Thr
 - `public/game/js/input.js` and `public/game/js/audio.js` — keyboard/touch input and optional synthesized audio.
 - `tests/race.test.mjs` — deterministic simulation tests.
 - `vite.config.ts`, `next.config.ts` — Vinext/Vite local and production wrapper configuration.
-- `.github/workflows/deploy-pages.yml` — test, build, and GitHub Pages deployment.
+- `.github/workflows/deploy-pages.yml` — Pages artifact build and deployment.
+- `scripts/build-pages.mjs` — stages the standalone game in `dist-pages`, injects the repository base path, and validates required entry files.
 
 ## Setup
 
@@ -61,17 +63,23 @@ npm run build
 - Do not change race physics while doing setup, documentation, or deployment work.
 - Prefer procedural, lightweight assets and maintain browser performance.
 - Do not introduce a backend unless explicitly required.
-- Keep browser asset URLs relative and compatible with the GitHub Pages `/orbit-07/` base path.
+- Keep browser asset URLs relative and compatible with the GitHub Pages `/ORBIT-07/` base path.
 - Do not commit dependencies, caches, generated build output, environment files, secrets, or machine-local data.
 - After upgrading `three`, run `node scripts/sync-vendor.mjs` and retain `public/game/vendor/LICENSE`.
 - Run the simulation tests and production build before finishing.
 
 ## GitHub Pages
 
-The public URL is `https://tacdelgineer.github.io/orbit-07/`. The workflow in `.github/workflows/deploy-pages.yml` deploys `public/game` directly as the Pages artifact after `npm test` and `npm run build` pass. Because `public/game/index.html` and all of its imports use `./`-relative paths, CSS, JavaScript, icons, and Three.js modules resolve beneath `/orbit-07/`.
+The public URL is `https://tacdelgineer.github.io/ORBIT-07/`. The workflow in `.github/workflows/deploy-pages.yml` runs `npm run build:pages` and deploys `dist-pages`. The build copies the standalone game from `public/game`, sets `/ORBIT-07/` as the document base, and verifies the game entry point and required assets before deployment.
 
-To verify the Pages layout locally, serve a directory containing the contents of `public/game` at an `orbit-07/` subdirectory, then open `http://localhost:<port>/orbit-07/`. Confirm that no request escapes to the server root. The normal production build remains:
+To verify the Pages layout locally, run `npm run build:pages`, serve `dist-pages` beneath an `ORBIT-07/` subdirectory, then open `http://localhost:<port>/ORBIT-07/`. Confirm that no request escapes to the repository base path. The normal application production build remains:
 
 ```sh
 npm run build
+```
+
+The Pages production build is:
+
+```sh
+npm run build:pages
 ```

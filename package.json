@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:pages": "node scripts/build-pages.mjs",
     "test": "node --test tests/race.test.mjs",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
@@ -16,9 +17,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Tacdelgineer/orbit-07.git"
+    "url": "https://github.com/Tacdelgineer/ORBIT-07.git"
   },
-  "homepage": "https://tacdelgineer.github.io/orbit-07/",
+  "homepage": "https://tacdelgineer.github.io/ORBIT-07/",
   "dependencies": {
     "@base-ui/react": "1.7.0",
     "@shadcn/react": "0.3.0",

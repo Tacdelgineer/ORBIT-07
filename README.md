@@ -2,7 +2,7 @@
 
 A fast browser-based anti-gravity racing game built with Three.js.
 
-## [▶ PLAY NOW](https://tacdelgineer.github.io/orbit-07/)
+## [▶ PLAY NOW](https://tacdelgineer.github.io/ORBIT-07/)
 
 ![ORBIT / 07 racing above Kepler](docs/images/gameplay-race.png)
 
@@ -33,7 +33,7 @@ A fast browser-based anti-gravity racing game built with Three.js.
 Requires Node.js 22.13 or newer.
 
 ```sh
-git clone https://github.com/Tacdelgineer/orbit-07.git
+git clone https://github.com/Tacdelgineer/ORBIT-07.git
 cd orbit-07
 npm ci
 npm run dev
@@ -52,17 +52,19 @@ The simulation tests run without a browser. A manual WebGL 2 browser play-throug
 
 ## Deploy
 
-Pushes to `main` automatically test, build, and deploy `public/game` with [the GitHub Pages workflow](.github/workflows/deploy-pages.yml). The deployed files use relative URLs so they remain compatible with the `/orbit-07/` repository base path.
+Pushes to `main` automatically build and deploy the standalone game with [the GitHub Pages workflow](.github/workflows/deploy-pages.yml). The Pages artifact is staged in ignored `dist-pages/` with `/ORBIT-07/` as its base path.
 
 ## Project structure
 
 ```text
 app/                       Vinext host for local development
+index.html                 Repository-root game entry for branch-based Pages
 public/game/index.html     Standalone game and UI markup
 public/game/js/            Race simulation, rendering, input, HUD, and audio
 public/game/styles.css     Game presentation and responsive layout
 public/game/vendor/        Browser-ready Three.js modules and license
 tests/race.test.mjs        Deterministic simulation tests
+scripts/build-pages.mjs    Stages and validates the Pages artifact
 .github/workflows/         GitHub Pages deployment
 AGENTS.md                  Operating guide for coding agents
 ```
@@ -73,7 +75,7 @@ AGENTS.md                  Operating guide for coding agents
 
 Copy and paste this prompt:
 
-> You are working with the ORBIT / 07 repository. Read `README.md` and `AGENTS.md` before changing anything. Use Node.js 22.13 or newer, install dependencies with `npm ci`, start the project with `npm run dev`, and verify the game locally. Preserve the existing Three.js architecture, procedural assets, and racing behavior unless I explicitly request gameplay changes. Keep all browser asset URLs compatible with the GitHub Pages `/orbit-07/` base path. After modifications, run `npm test` and `npm run build`. Report the local URL, test/build status, files changed, and remaining issues.
+> You are working with the ORBIT / 07 repository. Read `README.md` and `AGENTS.md` before changing anything. Use Node.js 22.13 or newer, install dependencies with `npm ci`, start the project with `npm run dev`, and verify the game locally. Preserve the existing Three.js architecture, procedural assets, and racing behavior unless I explicitly request gameplay changes. Keep all browser asset URLs compatible with the GitHub Pages `/ORBIT-07/` base path. After modifications, run `npm test`, `npm run build`, and `npm run build:pages`. Report the local URL, test/build status, files changed, and remaining issues.
 
 ## License
 
